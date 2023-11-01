@@ -1,35 +1,66 @@
 # Efficient AI-Based Weather Forecasting using Field Data
 
-In order to increase the precision of the forecast of Shenzhen weather features, a long short-term memory (LSTM) neural network was employed for the daily weather forecast in Shenzhen. This model took advantage of the LSTM model's advantages in time-series data processing.The experimental findings demonstrate that our EMD-LSTM model design outperforms conventional models in terms of forecasting precision and efficiency, which offers fresh approaches to weather forecasting.
+This experimental findings demonstrate that the EMD-LSTM model design outperforms conventional models (like RNN) in terms of forecasting precision and efficiency, which offers fresh approaches to weather forecasting.
 
-🚩: We are Initially utilising ARIMA and then we aim to utilize the combined work by (Haoyi Zhou, Shanghang Zhang, Jieqi Peng, Shuai Zhang, Jianxin Li, Hui Xiong, Wancai Zhang) in Informer forecasting model:Beyond Efficient Transformer for Long Sequence Time-Series Forecasting.
+🚩: We are utilising LSTM with Empirical mode decomposition(EMD) to engineer extra features and we aim to utilize the combined work by Guici Chen, Sijia Liu and Feng Jiang in DailyWeather Forecasting Based on Deep Learning Model: A Case Study of Shenzhen City, China.
 
-<img src="https://github.com/Kickersisoff/Oil-Well-Production-Optimization/assets/34878344/768e16ae-8a7f-4e43-b7ad-0b9ff80b556e" width="600" height="200">
+🚩: Find the `Research Report` here - [Link](https://drive.google.com/file/d/18QjJG85U3vOnafZkZCHBxW3WJNVU3m-m/view?usp=drive_link)
 
-Figure 1. An example of training dataset
 
-<img src="https://github.com/Kickersisoff/Oil-Well-Production-Optimization/assets/34878344/6b4fd649-c8f7-4a32-b24f-a89bb1a84490" width="500" height="300">
+### EMD-LSTM Model
+All features are dependent on each other so we are taking all features in order to find one feature and then EMD that feature into IMF. Further we find the best correlation IMF using Pearson coefficient. We give input of all features along with the IMF and train the model on that to give that feature value as the output.
 
-Figure 2. Line plot for Target Variable
+<p align="center">
+<img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/f2ee24b0-1801-46a2-b802-6b785890df8b" width="500" height="400">
+<br><br>
+<b>Figure 1.</b> AVGP and its IMF (Intrinsic mode function) values
+</p>
 
-#### Informer Model
-Informer is an upgraded version of the Transformer model that maintains a larger prediction capacity while being more efficient in terms of architecture, memory usage, and computation. There are several severe issues with Transformer that prevent it from being directly applicable to LSTF (Long sequence Time series forecasting), including quadratic time complexity, high memory usage, and inherent limitation of the encoder-decoder architecture.
-
-<img src="https://github.com/Kickersisoff/Oil-Well-Production-Optimization/assets/34878344/e1fe6725-109e-432f-885b-7e810ebabfa5" width="400" height="300">
-
-Figure 2. The architecture of Informer model.
+<p align="center">
+  <br><br>
+<img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/29c0010c-aec4-49d7-a945-b9293836736e" width="500" height="400">
+<br><br>
+<b>Figure 2.</b> IMF value and its pearson correlation (for average pressure, AVGP)
+</p>
 
 Requirements
-* Python 3.6
-* matplotlib == 3.1.1
-* numpy == 1.19.4
-* pandas == 0.25.1
-* scikit_learn == 0.21.3
-* torch == 1.8.0
+* Python 3.10
+* matplotlib 
+* numpy
+* pandas 
+* tensorflow (including keras)
+* EMD-signal
 
+### Results
+
+<p align="center">
+  <br><br>
 <img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/d6905844-031f-4651-b6f5-938165ab30cb" width="600" height="300">
+<br><br>
+<b>Figure 3.</b> Future forecasting results for Average Pressure (14 days).
+</p>
+<p align="center">
+ <br><br>
+<img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/b5e4b3c9-44a6-4de8-8c0e-26dc9950ef39" width="600" height="300">
+<br><br>
+<b>Figure 3.</b> Future forecasting results for Minimum Humidity (7 days).
+</p>
+</p>
+<p align="center">
+ <br><br>
+<img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/47339d1b-3464-4a4a-899b-2a35b67402be" width="600" height="300">
+<br><br>
+<b>Figure 3.</b> Future forecasting results for Average Temperature (7 days).
+</p>
+<p align="center">
+ <br><br>
+<img src="https://github.com/Kickersisoff/Weather-Forecasting/assets/34878344/36aa0799-98f4-484e-8c29-7579b649b9cf" width="600" height="300">
+<br><br>
+<b>Figure 3.</b> Future forecasting results for Minimum Pressure (7 days).
+</p>
 
+### What we Achieved
+* Correctly predicted humidity, minimum pressure, maximum pressure, average pressure, maximum temperature, minimum temperature, average temperature, and wind speed with non-stationarity and seasonal fluctuations.
+* Increased the precision and efficiency of the forecast compared to conventional methods (like RNN)
+* Reduced the effect of data noise and seasonal changes by filtering the correlation coefficients of each variable that were decomposed by EMD and then putting the data back together in an LSTM network.
 
-Figure 5. Multivariate forecasting results (for 96 days).
-
-🚩: Find the research report here - https://drive.google.com/file/d/1fwwCZzIIfk6Hiip40Z6bgMQQZSp9eS_J/view?usp=sharing
